@@ -1,6 +1,7 @@
 import pytest
 
-from components.burger import Burger
+from burger import Burger
+from unittest.mock import Mock
 
 
 class TestBurger:
@@ -29,13 +30,17 @@ class TestBurger:
         new_burger.move_ingredient(ingredient_index, new_index)
         assert new_burger.ingredients.index(new_ingredient) == new_index
 
-    def test_get_price(self, new_burger):
-        buns_price = new_burger.bun.get_price()*2
-        ingredients = new_burger.ingredients
-        ingredients_price = 0
-        for item in ingredients:
-            ingredients_price += item.get_price()
-        assert int(new_burger.get_price()) == int(buns_price + ingredients_price)
+    def test_get_price(self):
+        bun_price = 10
+        ingredient_price = 10
+        bun_mock = Mock()
+        ingredient_mock = Mock()
+        bun_mock.get_price.return_value = bun_price
+        ingredient_mock.get_price.return_value = ingredient_price
+        burger = Burger()
+        burger.set_buns(bun_mock)
+        burger.add_ingredient(ingredient_mock)
+        assert burger.get_price() == bun_price * 2 + ingredient_price
 
     def test_get_receipt_right_bun_in_result(self, new_burger):
         assert new_burger.bun.get_name() in new_burger.get_receipt()

@@ -1,9 +1,10 @@
 import random
 import pytest
 
-from components.bun import Bun
-from components.ingredient import Ingredient
-from components.burger import Burger
+from praktikum.bun import Bun
+from praktikum.ingredient import Ingredient
+from praktikum.burger import Burger
+import praktikum.ingredient_types as types
 from data_for_tests import constants as const
 
 
@@ -14,10 +15,10 @@ def new_bun():
 
 @pytest.fixture(scope="function")
 def new_ingredient():
-    ingredient_type = random.choice(const.ingredient_types)
-    if ingredient_type == "начинка":
-        ingredient_name = random.choice(const.toppings)
-        ingredient_price = random.uniform(const.min_topping_price, const.max_topping_price)
+    ingredient_type = random.choice([types.INGREDIENT_TYPE_SAUCE, types.INGREDIENT_TYPE_FILLING])
+    if ingredient_type == types.INGREDIENT_TYPE_FILLING:
+        ingredient_name = random.choice(const.fillings)
+        ingredient_price = random.uniform(const.min_filling_price, const.max_filling_price)
     else:
         ingredient_name = random.choice(const.sauces)
         ingredient_price = random.uniform(const.min_sauces_price, const.max_sauces_price)
@@ -26,24 +27,24 @@ def new_ingredient():
 
 @pytest.fixture(scope="function")
 def new_sauce():
-    ingredient_type = "соус"
+    ingredient_type = types.INGREDIENT_TYPE_SAUCE
     ingredient_name = random.choice(const.sauces)
     ingredient_price = random.uniform(const.min_sauces_price, const.max_sauces_price)
     return Ingredient(ingredient_type, ingredient_name, ingredient_price)
 
 
 @pytest.fixture(scope="function")
-def new_topping():
-    ingredient_type = "начинка"
-    ingredient_name = random.choice(const.toppings)
-    ingredient_price = random.uniform(const.min_topping_price, const.max_topping_price)
+def new_filling():
+    ingredient_type = types.INGREDIENT_TYPE_FILLING
+    ingredient_name = random.choice(const.fillings)
+    ingredient_price = random.uniform(const.min_filling_price, const.max_filling_price)
     return Ingredient(ingredient_type, ingredient_name, ingredient_price)
 
 
 @pytest.fixture(scope="function")
-def new_burger(new_bun, new_topping, new_sauce):
+def new_burger(new_bun, new_filling, new_sauce):
     burger = Burger()
     burger.set_buns(new_bun)
-    burger.add_ingredient(new_topping)
+    burger.add_ingredient(new_filling)
     burger.add_ingredient(new_sauce)
     return burger
