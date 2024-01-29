@@ -1,6 +1,6 @@
 import random
 
-from bun import Bun
+from praktikum.bun import Bun
 from data_for_tests import constants as const
 
 

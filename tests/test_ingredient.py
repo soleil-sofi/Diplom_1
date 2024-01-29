@@ -1,7 +1,7 @@
 import random
 
-from ingredient import Ingredient
-import ingredient_types as types
+from praktikum.ingredient import Ingredient
+from praktikum import ingredient_types as types
 from data_for_tests import constants as const
 
 

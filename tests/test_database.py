@@ -1,4 +1,4 @@
-from database import Database
+from praktikum.database import Database
 
 
 class TestDatabase:
